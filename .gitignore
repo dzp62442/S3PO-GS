@@ -10,3 +10,5 @@ preprocess/
 *.tmp
 *.swp
 *.DS_Store
+*.so
+*.o
