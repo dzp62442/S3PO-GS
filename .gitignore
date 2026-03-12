@@ -12,3 +12,7 @@ preprocess/
 *.DS_Store
 *.so
 *.o
+*.pth
+datasets/
+*.zip
+results/

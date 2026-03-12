@@ -240,8 +240,9 @@ if __name__ == "__main__":
     if args.alpha is not None:
         config["Training"]["alpha"] = args.alpha
         
-    if args.ns is not None:
-        config["Training"]["mapping_itr_nosingle"] = args.ns
+    # Upstream issue workaround: argparse does not define args.ns in this release.
+    # if args.ns is not None:
+    #     config["Training"]["mapping_itr_nosingle"] = args.ns
         
     if args.pr is not None:
         config["depth"]["min_accurate_pixels_ratio"] = args.pr
@@ -258,8 +259,9 @@ if __name__ == "__main__":
     if args.end is not None:
         config["Dataset"]["end"] = args.end
 
-    if args.sh is not None:
-        config["model_params"]["sh_degree"] = args.sh
+    # Upstream issue workaround: argparse does not define args.sh in this release.
+    # if args.sh is not None:
+    #     config["model_params"]["sh_degree"] = args.sh
 
     if args.patch_size is not None:
         config["depth"]["patch_size"] = args.patch_size
@@ -290,8 +292,16 @@ if __name__ == "__main__":
         wandb.define_metric("frame_idx")
         wandb.define_metric("ate*", step_metric="frame_idx")
         
-    model_name = "naver/MASt3R_ViTLarge_BaseDecoder_512_catmlpdpt_metric"
-    mast3r_model = AsymmetricMASt3R.from_pretrained(model_name).to("cuda")
+    model_name = "MASt3R_ViTLarge_BaseDecoder_512_catmlpdpt_metric.pth"
+    model_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "checkpoints", model_name
+    )
+    if not os.path.isfile(model_path):
+        raise FileNotFoundError(
+            f"MASt3R checkpoint not found: {model_path}. "
+            "Please download it into the local checkpoints directory."
+        )
+    mast3r_model = AsymmetricMASt3R.from_pretrained(model_path).to("cuda")
     
     slam = SLAM(config, save_dir=save_dir,mast3r_model=mast3r_model)
 

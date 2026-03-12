@@ -100,7 +100,9 @@ class WaymoParser:
         self.input_folder = input_folder
         self.color_paths = sorted(glob.glob(f"{self.input_folder}/rgb/*.png"))
         self.depth_paths = sorted(glob.glob(f"{self.input_folder}/depth/*.png"))
-        self.mono_depth_paths = sorted(glob.glob(f"{self.input_folder}/mono_depth/*.png"))
+        # Upstream issue workaround: released Waymo data may not include mono_depth.
+        # Reuse depth paths as a placeholder to keep loader behavior consistent.
+        self.mono_depth_paths = self.depth_paths
         self.n_img = len(self.color_paths)
         self.load_poses(f"{self.input_folder}/gt/*.txt")
 

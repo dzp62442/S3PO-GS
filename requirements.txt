@@ -17,7 +17,7 @@ imgviz==1.7.5
 kapture==1.1.10
 kapture-localization==1.1.10
 lpips==0.1.4
-matplotlib==3.8.4
+matplotlib==3.5.3
 matplotlib-inline==0.1.7
 munch==4.0.0
 networkx
